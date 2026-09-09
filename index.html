@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WhoPrayer AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f1ea;
+      color: #222;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #prayer {
+      white-space: pre-line;
+      line-height: 1.7;
+      font-size: 18px;
+      min-height: 250px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin: 5px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #generate {
+      background: #222;
+      color: white;
+    }
+
+    #copy {
+      background: #ddd;
+      color: #222;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .stats {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 10px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 15px;
+      background: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    #tokenBar {
+      height: 100%;
+      width: 0%;
+      background: #555;
+      transition: width 0.3s;
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🙏 Prayer Generator</h1>
+  <p>Choose a prayer or generate one randomly.</p>
+</header>
+
+<main>
+  <div class="card">
+
+    <h2 id="prayerNumber">Prayer Generator</h2>
+
+    <div id="prayer">
+      Click "Generate Prayer" to begin.
+    </div>
+
+    <button id="generate" onclick="generatePrayer()">
+      🙏 Generate Prayer
+    </button>
+
+    <button id="copy" onclick="copyPrayer()">
+      📋 Copy a Prayer
+    </button>
+
+    <div class="stats">
+      <strong>Token Context</strong>
+
+      <p>
+        Tokens:
+        <span id="tokenCount">0</span>
+        /
+        60,000,000
+      </p>
+
+      <p>
+        Messages kept:
+        <span id="messageCount">0</span>
+      </p>
+
+      <div class="bar">
+        <div id="tokenBar"></div>
+      </div>
+    </div>
+
+    <div id="status"></div>
+
+  </div>
+</main>
+
+
+<script>
+
+/*
+==================================================
+PRAYER DATA
+==================================================
+*/
+
+const prayers = [
+
+`Dear God,
+
+Thank You for this new day and for the blessings You have given me.
+Please guide my thoughts, words, and actions.
+Give me wisdom when I face difficult choices, courage when things feel challenging, and kindness toward everyone I meet.
+Please watch over my family, friends, and those who may be struggling.
+Help me appreciate the good things in my life and learn from my mistakes.
+May I walk forward with hope, patience, and faith.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another day.
+Please help me stay positive and patient.
+Give me strength to overcome challenges.
+Help me be kind and helpful to others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who care about me.
+Please give me wisdom and understanding.
+Help me make thoughtful choices today.
+Guide me toward what is good and right.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for all the blessings in my life.
+Please help me learn from every experience.
+Give me courage when I feel uncertain.
+Help me treat everyone with compassion.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the opportunities each day brings.
+Please guide me as I learn and grow.
+Help me remain hopeful when things are difficult.
+Watch over the people I care about.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the gift of today.
+Please guide me through everything I do.
+Help me be patient, thoughtful, and kind.
+Give me wisdom to make good decisions.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who support me.
+Please give me courage when I face challenges.
+Help me learn from my mistakes.
+Guide me toward kindness and understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for another opportunity to learn and grow.
+Please help me stay focused on what matters.
+Give me patience when things do not go as planned.
+Help me encourage others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the blessings in my life.
+Please help me appreciate what I have.
+Give me strength when life feels difficult.
+Help me show compassion to others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me a fresh start today.
+Please guide my words and actions.
+Help me make responsible choices.
+Give me peace and wisdom throughout the day.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the beauty of the world around me.
+Please help me notice the good things in each day.
+Give me a grateful heart.
+Help me share kindness wherever I go.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me strength to keep moving forward.
+Please help me stay hopeful during difficult moments.
+Give me wisdom when I need to choose a path.
+Help me trust that better days can come.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for my family, friends, and community.
+Please watch over the people I care about.
+Help us support one another.
+Give us patience, understanding, and kindness.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the chance to improve each day.
+Please help me learn from yesterday.
+Guide me as I work toward my goals.
+Give me determination and wisdom.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for every small blessing.
+Please help me remain grateful.
+Give me courage to try new things.
+Help me treat others with respect.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for being with me through each day.
+Please help me stay calm when I am worried.
+Give me clarity when I am confused.
+Help me choose kindness over anger.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the lessons life teaches me.
+Please help me understand those lessons.
+Give me strength to keep learning.
+Help me become a better person each day.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who make life meaningful.
+Please help me be a good friend to others.
+Give me empathy and understanding.
+Help me be there when someone needs encouragement.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me hope.
+Please help me stay positive during challenges.
+Give me the courage to keep trying.
+Help me remember that I can always learn and grow.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for this moment and this day.
+Please guide me toward wise decisions.
+Help me use my time in meaningful ways.
+Give me patience, courage, and kindness.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for all the good things in my life.
+Please guide me as I continue growing.
+Help me face challenges with courage.
+Give me wisdom to make good choices.
+May I bring kindness and hope to others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another day.
+Please guide me with wisdom and patience.
+Help me make choices that reflect kindness.
+Keep my heart grateful and hopeful.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the opportunities around me.
+Help me recognize them and use them wisely.
+Give me courage when I face something new.
+Help me keep learning every day.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who encourage me.
+Please help me encourage others too.
+Give me patience when someone needs my help.
+Help me listen with understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the gift of life.
+Help me appreciate each day.
+Give me strength to handle difficult moments.
+Guide me toward peace and kindness.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for everything I have learned.
+Help me continue growing in wisdom.
+Please guide me when I make decisions.
+Help me learn from mistakes instead of giving up.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who care about me.
+Please watch over them and keep them safe.
+Help me show them how much I appreciate them.
+Give us understanding and patience.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the peaceful moments in my day.
+Help me slow down and appreciate them.
+Give me a calm and thoughtful mind.
+Help me spread peace to others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another chance to do better.
+Help me learn from yesterday.
+Guide me toward better choices today.
+Give me determination to keep improving.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the blessings I sometimes overlook.
+Help me notice the good around me.
+Give me a grateful heart.
+Help me share that gratitude with others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me strength.
+Help me use that strength to help others.
+Give me wisdom when situations are difficult.
+Help me remain kind and patient.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people and experiences that help me grow.
+Please guide me through new experiences.
+Help me stay curious and willing to learn.
+Give me confidence to keep moving forward.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me hope for tomorrow.
+Help me focus on what I can do today.
+Give me patience when progress takes time.
+Help me keep a positive and grateful heart.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who teach me important lessons.
+Help me listen and learn from their wisdom.
+Give me humility when I need to improve.
+Help me become wiser each day.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me a mind that can learn.
+Help me stay focused when I study.
+Give me patience with difficult subjects.
+Help me use what I learn for good.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the kindness others have shown me.
+Help me return that kindness.
+Give me compassion for people who are having a difficult day.
+Help me make someone's day a little brighter.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me opportunities to grow.
+Help me not be afraid of making mistakes.
+Give me courage to try again.
+Help me remember that learning takes time.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the beauty of creation.
+Help me appreciate the world around me.
+Give me a heart that cares for others and the world.
+Help me be responsible with what I have been given.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for helping me through each day.
+Please guide me when I feel uncertain.
+Give me wisdom to know what is right.
+Help me move forward with courage.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the memories I have made.
+Help me appreciate the present too.
+Give me hope for the future.
+Help me make meaningful memories with others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another opportunity to help others.
+Help me notice when someone needs encouragement.
+Give me kind words and a helpful attitude.
+Guide me to make a positive difference.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for bringing me to the end of another day.
+Help me reflect on what I learned today.
+Give me peace as I look toward tomorrow.
+Help me continue growing in wisdom, kindness, and faith.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the new possibilities today brings.
+Help me approach each opportunity with courage.
+Give me wisdom and patience.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who bring joy into my life.
+Help me show them appreciation.
+Guide me to be thoughtful and caring.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me the ability to learn.
+Help me stay curious and focused.
+Give me determination when something is difficult.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for every moment I get to spend with others.
+Help me make those moments meaningful.
+Give me patience and understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the strength to face today's challenges.
+Help me stay calm when things become difficult.
+Guide me toward wise decisions.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for all the good things around me.
+Help me notice even the small blessings.
+Give me a grateful heart.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another chance to improve.
+Help me learn from my experiences.
+Guide me toward better choices.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me hope.
+Help me hold onto that hope during difficult moments.
+Give me courage and patience.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for my family and friends.
+Please watch over them.
+Help me support them whenever I can.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the lessons I learn each day.
+Help me remember what those lessons teach me.
+Give me wisdom to use them well.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the opportunity to make a difference.
+Help me use my abilities for good.
+Guide my actions with kindness.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for today's moments of peace.
+Help me appreciate them.
+Give me a calm and patient heart.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me people I can learn from.
+Help me listen carefully.
+Give me humility and understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the chance to begin again.
+Help me learn from yesterday's mistakes.
+Guide me toward a better day.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the gifts and talents You have given me.
+Help me develop them responsibly.
+Guide me toward opportunities to help others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me reasons to be grateful.
+Help me remember them when I feel discouraged.
+Give me strength and hope.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for every person who has helped me.
+Help me show appreciation for their kindness.
+Guide me to help others in return.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for another opportunity to learn.
+Help me stay focused on my goals.
+Give me patience when progress is slow.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the peaceful moments in my life.
+Help me create peaceful moments for others.
+Give me kind and encouraging words.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me courage.
+Help me use it when I face challenges.
+Give me wisdom to know when to ask for help.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who believe in me.
+Help me appreciate their encouragement.
+Guide me to encourage others too.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the beauty I can see around me.
+Help me appreciate the world.
+Give me a caring and grateful heart.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the opportunity to help someone today.
+Help me recognize when others need kindness.
+Give me a generous and patient spirit.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the strength to keep learning.
+Help me not give up when something is challenging.
+Give me determination and confidence.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who make me smile.
+Help me bring happiness and kindness to others.
+Guide my words and actions.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me another day to grow.
+Help me make wise choices.
+Give me patience with myself and others.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for every blessing, big and small.
+Help me never take them for granted.
+Give me gratitude and humility.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who teach me.
+Help me value their guidance.
+Give me the wisdom to apply what I learn.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me opportunities to be helpful.
+Help me serve others with kindness.
+Guide me toward thoughtful actions.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the hope that tomorrow brings.
+Help me focus on what I can do today.
+Give me patience as I work toward my goals.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people who care about me.
+Please watch over them.
+Help me be a source of encouragement.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for every lesson that helps me grow.
+Help me keep an open mind.
+Give me wisdom and understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me a chance to make today meaningful.
+Help me use my time wisely.
+Guide me toward positive choices.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the kindness I have received.
+Help me pass that kindness along.
+Give me compassion for everyone I meet.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for giving me strength when I need it.
+Help me remain patient during challenges.
+Guide me toward solutions instead of frustration.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for all the experiences that shape me.
+Help me learn something valuable from each one.
+Give me wisdom to grow from them.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for another opportunity to show kindness.
+Help me treat everyone with respect.
+Guide me to be patient and understanding.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the peaceful moments today.
+Help me remember them when life becomes busy.
+Give me a grateful heart.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for helping me through each new experience.
+Give me courage to keep learning.
+Help me make thoughtful decisions.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for the people and opportunities in my life.
+Help me appreciate them.
+Guide me to use every opportunity wisely.
+
+Amen.`,
+
+`Dear God,
+
+Thank You for bringing me through another day.
+Help me remember the good things from today.
+Give me hope, wisdom, and peace for tomorrow.
+
+Amen.`
+];
+
+
+/*
+==================================================
+60 MILLION TOKEN CHAT SYSTEM
+==================================================
+*/
+
+const MAX_TOKENS = 60_000_000;
+
+let messages = [];
+let totalTokens = 0;
+
+
+/*
+Simple browser token estimator.
+
+This is NOT tiktoken.
+For exact model-specific tokenization, use a
+real tokenizer such as tiktoken through Pyodide.
+*/
+function countTokens(text) {
+
+  /*
+  Rough approximation:
+  about 4 characters per token.
+  */
+  return Math.ceil(text.length / 4);
+}
+
+
+/*
+Add a message
+*/
+function addMessage(role, content) {
+
+  const tokens = countTokens(content);
+
+  messages.push({
+    role: role,
+    content: content,
+    tokens: tokens
+  });
+
+  totalTokens += tokens;
+
+  cleanupTokens();
+  updateStats();
+}
+
+
+/*
+Delete oldest messages when the limit is exceeded.
+*/
+function cleanupTokens() {
+
+  while (
+    totalTokens > MAX_TOKENS &&
+    messages.length > 0
+  ) {
+
+    const oldMessage = messages.shift();
+
+    totalTokens -= oldMessage.tokens;
+  }
+}
+
+
+/*
+==================================================
+PRAYER GENERATOR
+==================================================
+*/
+
+let lastPrayer = -1;
+
+
+function generatePrayer() {
+
+  let randomIndex;
+
+  do {
+    randomIndex =
+      Math.floor(Math.random() * prayers.length);
+  }
+  while (
+    prayers.length > 1 &&
+    randomIndex === lastPrayer
+  );
+
+  lastPrayer = randomIndex;
+
+  const selectedPrayer = prayers[randomIndex];
+
+  document.getElementById("prayer").textContent =
+    selectedPrayer;
+
+  document.getElementById("prayerNumber").textContent =
+    `Prayer ${randomIndex + 1}`;
+
+  addMessage(
+    "assistant",
+    selectedPrayer
+  );
+
+  document.getElementById("status").textContent =
+    "Prayer generated.";
+}
+
+
+/*
+==================================================
+COPY
+==================================================
+*/
+
+async function copyPrayer() {
+
+  const prayer =
+    document.getElementById("prayer").textContent;
+
+  if (
+    !prayer ||
+    prayer === "Click \"Generate Prayer\" to begin."
+  ) {
+    return;
+  }
+
+  try {
+
+    await navigator.clipboard.writeText(prayer);
+
+    document.getElementById("status").textContent =
+      "Prayer copied!";
+
+  } catch (error) {
+
+    document.getElementById("status").textContent =
+      "Could not copy the prayer.";
+  }
+}
+
+
+/*
+==================================================
+STATS
+==================================================
+*/
+
+function updateStats() {
+
+  document.getElementById("tokenCount").textContent =
+    totalTokens.toLocaleString();
+
+  document.getElementById("messageCount").textContent =
+    messages.length.toLocaleString();
+
+  const percentage =
+    Math.min(
+      (totalTokens / MAX_TOKENS) * 100,
+      100
+    );
+
+  document.getElementById("tokenBar").style.width =
+    percentage + "%";
+}
+
+
+/*
+Initialize
+*/
+
+updateStats();
+
+</script>
+
+</body>
+</html>
