@@ -212,3 +212,213 @@ function prayer21() {
   console.log("May I bring kindness and hope to others.");
   console.log("Amen.");
 }
+
+// Prayer 22
+function prayer22() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me another day.");
+  console.log("Please guide me with wisdom and patience.");
+  console.log("Help me make choices that reflect kindness.");
+  console.log("Keep my heart grateful and hopeful.");
+  console.log("Amen.");
+}
+
+// Prayer 23
+function prayer23() {
+  console.log("Dear God,");
+  console.log("Thank You for the opportunities around me.");
+  console.log("Help me recognize them and use them wisely.");
+  console.log("Give me courage when I face something new.");
+  console.log("Help me keep learning every day.");
+  console.log("Amen.");
+}
+
+// Prayer 24
+function prayer24() {
+  console.log("Dear God,");
+  console.log("Thank You for the people who encourage me.");
+  console.log("Please help me encourage others too.");
+  console.log("Give me patience when someone needs my help.");
+  console.log("Help me listen with understanding.");
+  console.log("Amen.");
+}
+
+// Prayer 25
+function prayer25() {
+  console.log("Dear God,");
+  console.log("Thank You for the gift of life.");
+  console.log("Help me appreciate each day.");
+  console.log("Give me strength to handle difficult moments.");
+  console.log("Guide me toward peace and kindness.");
+  console.log("Amen.");
+}
+
+// Prayer 26
+function prayer26() {
+  console.log("Dear God,");
+  console.log("Thank You for everything I have learned.");
+  console.log("Help me continue growing in wisdom.");
+  console.log("Please guide me when I make decisions.");
+  console.log("Help me learn from mistakes instead of giving up.");
+  console.log("Amen.");
+}
+
+// Prayer 27
+function prayer27() {
+  console.log("Dear God,");
+  console.log("Thank You for the people who care about me.");
+  console.log("Please watch over them and keep them safe.");
+  console.log("Help me show them how much I appreciate them.");
+  console.log("Give us understanding and patience.");
+  console.log("Amen.");
+}
+
+// Prayer 28
+function prayer28() {
+  console.log("Dear God,");
+  console.log("Thank You for the peaceful moments in my day.");
+  console.log("Help me slow down and appreciate them.");
+  console.log("Give me a calm and thoughtful mind.");
+  console.log("Help me spread peace to others.");
+  console.log("Amen.");
+}
+
+// Prayer 29
+function prayer29() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me another chance to do better.");
+  console.log("Help me learn from yesterday.");
+  console.log("Guide me toward better choices today.");
+  console.log("Give me determination to keep improving.");
+  console.log("Amen.");
+}
+
+// Prayer 30
+function prayer30() {
+  console.log("Dear God,");
+  console.log("Thank You for the blessings I sometimes overlook.");
+  console.log("Help me notice the good around me.");
+  console.log("Give me a grateful heart.");
+  console.log("Help me share that gratitude with others.");
+  console.log("Amen.");
+}
+
+// Prayer 31
+function prayer31() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me strength.");
+  console.log("Help me use that strength to help others.");
+  console.log("Give me wisdom when situations are difficult.");
+  console.log("Help me remain kind and patient.");
+  console.log("Amen.");
+}
+
+// Prayer 32
+function prayer32() {
+  console.log("Dear God,");
+  console.log("Thank You for the people and experiences that help me grow.");
+  console.log("Please guide me through new experiences.");
+  console.log("Help me stay curious and willing to learn.");
+  console.log("Give me confidence to keep moving forward.");
+  console.log("Amen.");
+}
+
+// Prayer 33
+function prayer33() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me hope for tomorrow.");
+  console.log("Help me focus on what I can do today.");
+  console.log("Give me patience when progress takes time.");
+  console.log("Help me keep a positive and grateful heart.");
+  console.log("Amen.");
+}
+
+// Prayer 34
+function prayer34() {
+  console.log("Dear God,");
+  console.log("Thank You for the people who teach me important lessons.");
+  console.log("Help me listen and learn from their wisdom.");
+  console.log("Give me humility when I need to improve.");
+  console.log("Help me become wiser each day.");
+  console.log("Amen.");
+}
+
+// Prayer 35
+function prayer35() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me a mind that can learn.");
+  console.log("Help me stay focused when I study.");
+  console.log("Give me patience with difficult subjects.");
+  console.log("Help me use what I learn for good.");
+  console.log("Amen.");
+}
+
+// Prayer 36
+function prayer36() {
+  console.log("Dear God,");
+  console.log("Thank You for the kindness others have shown me.");
+  console.log("Help me return that kindness.");
+  console.log("Give me compassion for people who are having a difficult day.");
+  console.log("Help me make someone's day a little brighter.");
+  console.log("Amen.");
+}
+
+// Prayer 37
+function prayer37() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me opportunities to grow.");
+  console.log("Help me not be afraid of making mistakes.");
+  console.log("Give me courage to try again.");
+  console.log("Help me remember that learning takes time.");
+  console.log("Amen.");
+}
+
+// Prayer 38
+function prayer38() {
+  console.log("Dear God,");
+  console.log("Thank You for the beauty of creation.");
+  console.log("Help me appreciate the world around me.");
+  console.log("Give me a heart that cares for others and the world.");
+  console.log("Help me be responsible with what I have been given.");
+  console.log("Amen.");
+}
+
+// Prayer 39
+function prayer39() {
+  console.log("Dear God,");
+  console.log("Thank You for helping me through each day.");
+  console.log("Please guide me when I feel uncertain.");
+  console.log("Give me wisdom to know what is right.");
+  console.log("Help me move forward with courage.");
+  console.log("Amen.");
+}
+
+// Prayer 40
+function prayer40() {
+  console.log("Dear God,");
+  console.log("Thank You for the memories I have made.");
+  console.log("Help me appreciate the present too.");
+  console.log("Give me hope for the future.");
+  console.log("Help me make meaningful memories with others.");
+  console.log("Amen.");
+}
+
+// Prayer 41
+function prayer41() {
+  console.log("Dear God,");
+  console.log("Thank You for giving me another opportunity to help others.");
+  console.log("Help me notice when someone needs encouragement.");
+  console.log("Give me kind words and a helpful attitude.");
+  console.log("Guide me to make a positive difference.");
+  console.log("Amen.");
+}
+
+// Prayer 42
+function prayer42() {
+  console.log("Dear God,");
+  console.log("Thank You for bringing me to the end of another day.");
+  console.log("Help me reflect on what I learned today.");
+  console.log("Give me peace as I look toward tomorrow.");
+  console.log("Help me continue growing in wisdom, kindness, and faith.");
+  console.log("Amen.");
+}
