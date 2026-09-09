@@ -43,7 +43,6 @@ function prayer4() {
 }
 
 <!--- Prayer 5 --->
-}
 function prayer5() {
   console.log("Dear God,");
   console.log("Thank You for the opportunities each day brings.");
