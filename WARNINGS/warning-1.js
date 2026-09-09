@@ -1,0 +1,1 @@
+console.log("If you don't know what this site does, EXIT NOW! People can upload inappropriate prayers, type very ungodly comments, and get you banned from WhoPrayer!!")
