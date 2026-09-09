@@ -40,6 +40,7 @@ function prayer4() {
   console.log("Give me courage when I feel uncertain.");
   console.log("Help me treat everyone with compassion.");
   console.log("Amen.");
+}
 
 <!--- Prayer 5 --->
 }
